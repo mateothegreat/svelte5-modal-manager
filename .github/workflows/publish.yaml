@@ -20,8 +20,10 @@ jobs:
           commit-message: "CI: bumps version to {{version}} [skip ci]"
       - name: write to .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+      - name: build
+        run: npm run build
       - name: publish
-        run: npm publish --access=public
+        run: cd dist && npm publish --access=public
       - name: discord notification
         uses: sarisia/actions-status-discord@v1
         if: always()
