@@ -42,7 +42,7 @@ The `manager.open()` method takes a `ModalConfig` object as an argument (see abo
   const manager = new ModalManager();
 
   manager.open({
-    name: "test-modal-1",
+    id: "test-modal-1",
     component: TestComponent,
     classes: "bg-slate-300/50 p-10" // optional
   });

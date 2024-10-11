@@ -19,9 +19,9 @@ jobs:
           target-branch: main
           commit-message: "CI: bumps version to {{version}} [skip ci]"
       - name: publish
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm config set _authToken=${{ secrets.NPM_TOKEN }}
+          npm publish --access=public
       - name: discord notification
         uses: sarisia/actions-status-discord@v1
         if: always()
