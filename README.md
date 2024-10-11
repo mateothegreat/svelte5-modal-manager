@@ -1,18 +1,18 @@
-# Svelte Modal Manager
+# Svelte5 Modal Manager
 
-Manage modals like a boss 🚀
+Manage modals like a boss 💪!
 
 No wrapper components, no extra markup, no dependencies, just modals.
 
 - Comes with a backdrop overlay.
-- Handles multiple modals at once.
+- Handles multiple modals at once 🚀.
 - Handles multiple instances of the same modal at once.
 - Access the modal manager from within your modal component.
 
 ## Installation
 
 ```bash
-npm install @svelte.codes/modal-manager
+npm install @mateothegreat/svelte5-modal-manager
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ The `manager.open()` method takes a `ModalConfig` object as an argument (see abo
 
 ```ts
 <script lang="ts">
-  import { ModalManager } from "@svelte.codes/modal-manager";
+  import { ModalManager } from "@mateothegreat/svelte5-modal-manager";
   import TestComponent from "../../lib/components/test-component.svelte";
 
   const manager = new ModalManager();
@@ -60,13 +60,12 @@ From inside your client component you can interact with the manager via the `ins
 
 ```ts
 <script lang="ts">
-  import { ModalInstance } from "@svelte.codes/modal-manager";
-
-  export let instance: ModalInstance;
+  import { ModalInstance } from "@mateothegreat/svelte5-modal-manager";
+  let { instance }: { instance: ModalInstance<any> } = $props();
 </script>
 
 <div class="bg-slate-300 p-10">
   <h1 class="text-3xl font-bold underline">this is inside a modal</h1>
-  <button on:click={() => instance.manager.close(instance.config.name)}>close</button>
+  <button on:click={() => instance.manager.close(instance.config.id)}>close</button>
 </div>
 ```

@@ -15,6 +15,8 @@
 
   onMount(() => {
     instance.element = ref;
+    // Focus the modal content div when the component is mounted
+    modalContentRef?.focus();
   });
 
   onDestroy(() => {
@@ -23,12 +25,23 @@
   });
 
   let ref: HTMLElement = $state();
+  let modalContentRef: HTMLDivElement;
 
   const dispatch = createEventDispatcher<Record<keyof $$Events, any>>();
 
   const handleClick = (e: MouseEvent) => {
-    // @ts-ignore
-    if (e.target.contains(ref)) {
+    const target = e.target as Node;
+    if (ref && !ref.contains(target)) {
+      console.log(123);
+
+      instance.manager.close(instance.config.id);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    console.log(e.key);
+
+    if (e.key === 'Escape') {
       instance.manager.close(instance.config.id);
     }
   };
@@ -37,7 +50,7 @@
 </script>
 
 <div bind:this={ref} class="modal-overlay absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500 {instance.config.classes}">
-  <div onclick={handleClick} onblur={close} class="modal-content">
+  <div bind:this={modalContentRef} role="button" tabindex="0" onkeydown={handleKeyDown} onclick={handleClick} class="modal-content">
     <instance.config.component {instance} />
   </div>
 </div>
