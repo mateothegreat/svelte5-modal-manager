@@ -6,6 +6,8 @@ export class ModalInstance<T> {
   public config: ModalConfig<T>;
   public element?: HTMLElement;
   public overlay?: any;
+  public index?: number;
+
   public constructor(config: ModalConfig<T>) {
     this.config = new ModalConfig<T>(config);
   }

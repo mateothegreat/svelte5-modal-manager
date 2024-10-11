@@ -32,9 +32,9 @@
   const handleClick = (e: MouseEvent) => {
     const target = e.target as Node;
     if (ref && !ref.contains(target)) {
-      console.log(123);
-
-      instance.manager.close(instance.config.id);
+      if (instance.manager.isOnTop(instance.config.id)) {
+        instance.manager.close(instance.config.id);
+      }
     }
   };
 
