@@ -20,6 +20,8 @@ jobs:
           commit-message: "CI: bumps version to {{version}} [skip ci]"
       - name: write to .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+      - name: install
+        run: npm install --legacy-peer-deps
       - name: build
         run: npm run build
       - name: publish
