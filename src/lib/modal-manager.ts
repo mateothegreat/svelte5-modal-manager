@@ -8,7 +8,6 @@ export class ModalManager {
 
   public open(config: ModalConfig<any>, props?: any): void {
     const instance = new ModalInstance(config);
-    console.log(instance);
 
     this.modals[instance.config.id] = instance;
     this.modals[instance.config.id].manager = this;
