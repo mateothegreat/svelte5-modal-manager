@@ -1,10 +1,14 @@
 {
   "name": "@mateothegreat/svelte5-modal-manager",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "svelte": "./index.ts",
+  "module": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    }
+  },
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build": "npm run check && rimraf dist && cpx 'src/lib/**/*' dist && cpx package.json dist"

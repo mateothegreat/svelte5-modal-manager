@@ -12,7 +12,7 @@ export class ModalInstance<T> {
     this.config = new ModalConfig<T>(config);
   }
 
-  public destroy() {
+  public close() {
     this.manager.close(this.config.id);
   }
 }
