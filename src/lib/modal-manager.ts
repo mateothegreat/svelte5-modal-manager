@@ -14,13 +14,14 @@ export class ModalManager {
     this.modals[instance.config.id].overlay = mount(DefaultOverlay, {
       target: document.body,
       props: {
-        instance: this.modals[instance.config.id]
+        instance: this.modals[instance.config.id],
+        ...props
       }
     });
     this.modals[instance.config.id].index = Object.keys(this.modals).length - 1
   }
 
-  public close(id: string): void {
+  public close(id: string | undefined): void {
     if (!this.modals[id]) {
       console.error(`Modal with id ${id} not found`, this.modals);
       return;

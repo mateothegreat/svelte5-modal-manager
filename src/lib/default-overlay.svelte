@@ -6,7 +6,7 @@
     instance: ModalInstance<any>;
   }
 
-  let { instance = $bindable() }: Props = $props();
+  let { instance = $bindable(), ...rest }: Props = $props();
 
   interface $$Events {
     close: CustomEvent<string>;
@@ -51,6 +51,6 @@
 
 <div bind:this={ref} class="modal-overlay absolute bottom-0 left-0 right-0 top-0 flex h-full w-full items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500 {instance.config.classes}">
   <div bind:this={modalContentRef} role="button" tabindex="0" onkeydown={handleKeyDown} onclick={handleClick} class="modal-content">
-    <instance.config.component {instance} />
+    <instance.config.component {instance} {...rest} />
   </div>
 </div>
