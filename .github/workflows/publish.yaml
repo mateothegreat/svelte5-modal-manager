@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: write to .npmrc
+        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+      - name: install
+        run: npm install --legacy-peer-deps
       - name: automated version bump
         uses: "phips28/gh-action-bump-version@master"
         env:
@@ -18,10 +22,6 @@ jobs:
         with:
           target-branch: main
           commit-message: "CI: bumps version to {{version}} [skip ci]"
-      - name: write to .npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
-      - name: install
-        run: npm install --legacy-peer-deps
       - name: build
         run: npm run build
       - name: publish
