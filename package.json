@@ -13,8 +13,7 @@
   },
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "prepare": "svelte-check --tsconfig ./tsconfig.json",
-    "build": "rimraf dist && svelte-package && cpx package.json dist && cd dist && npm version from-git"
+    "build": "rimraf dist && svelte-package && cpx package.json dist"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.3.7",
