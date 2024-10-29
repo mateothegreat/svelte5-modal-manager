@@ -1,26 +1,32 @@
 {
   "name": "@mateothegreat/svelte5-modal-manager",
-  "version": "0.0.13",
+  "version": "0.0.0",
   "type": "module",
-  "svelte": "./index.ts",
-  "module": "./index.ts",
+  "svelte": "./index.js",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
-      "import": "./index.ts"
+      "import": "./index.js"
     }
   },
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "build": "npm run check && rimraf dist && cpx 'src/lib/**/*' dist && cpx package.json dist"
+    "prepare": "svelte-check --tsconfig ./tsconfig.json",
+    "build": "rimraf dist && svelte-package && cpx package.json dist && cd dist && npm version from-git"
   },
   "devDependencies": {
+    "@sveltejs/package": "^2.3.7",
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@tsconfig/svelte": "^5.0.4",
-    "svelte": "^5.1.4",
+    "cpx": "^1.5.0",
+    "rimraf": "^6.0.1",
     "svelte-check": "^4.0.5",
     "tslib": "^2.8.0",
-    "typescript": "^5.6.3",
-    "rimraf": "^6.0.1",
-    "cpx": "^1.5.0"
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "svelte": "^5.1.4"
   }
 }
