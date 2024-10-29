@@ -9,13 +9,17 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "checkJs": true,
-    "isolatedModules": true
+    "allowJs": false,
+    "checkJs": false,
+    "strict": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "moduleResolution": "bundler",
+    "allowArbitraryExtensions": true,
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.svelte"
+    "src/**/*.svelte",
+    "src/**/*.svelte.ts"
   ]
 }
