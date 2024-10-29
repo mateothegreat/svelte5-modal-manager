@@ -1,6 +1,12 @@
 {
   "name": "@mateothegreat/svelte5-modal-manager",
+<<<<<<< HEAD
   "version": "0.0.14",
+||||||| 6de1cf9
+  "version": "0.0.0",
+=======
+  "version": "0.0.1",
+>>>>>>> 659319f4a6bf72f1b3be60cf30d84f2cf40ec02d
   "type": "module",
   "svelte": "./index.js",
   "main": "./index.js",
