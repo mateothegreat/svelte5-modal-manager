@@ -1,4 +1,4 @@
-export class ModalConfig<T> {
+export class ModalConfig<T = any> {
   public id?: string = Math.random().toString(6);
   public classes?: string;
   public component: any;
