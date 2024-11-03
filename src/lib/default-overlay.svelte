@@ -39,13 +39,11 @@
 
   onMount(() => {
     instance.element = ref;
-    modalContentRef?.focus();
     document.addEventListener('mousedown', handleClick);
   });
 
   onDestroy(() => {
     dispatch('close');
-    // Remove click event listener on cleanup
     document.removeEventListener('mousedown', handleClick);
   });
 </script>
