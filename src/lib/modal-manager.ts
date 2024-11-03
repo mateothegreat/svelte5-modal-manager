@@ -2,7 +2,7 @@ import { mount, unmount } from 'svelte';
 import DefaultOverlay from './default-overlay.svelte';
 import type { ModalConfig } from './modal-config';
 import { ModalInstance } from './modal-instance';
-import { visible } from './store';
+
 export class ModalManager {
   public modals: { [name: string]: ModalInstance<any> } = {};
 
@@ -29,14 +29,6 @@ export class ModalManager {
 
     unmount(this.modals[id].overlay);
     delete this.modals[id];
-  }
-
-  public show(id: string): void {
-    visible.set(true);
-  }
-
-  public hide(id: string): void {
-    visible.set(false);
   }
 
   public getIndex(id: string): number {
