@@ -9,7 +9,7 @@
     name: string;
   };
 
-  let { instance, name }: Props = $props();
+  let { instance }: Props = $props();
 
   onMount(() => {
     console.log("modal one mounted", instance);
@@ -17,7 +17,7 @@
 </script>
 
 <div>
-  <h1>I am a modal named "{name}"</h1>
+  <h1>I am a modal with id "{instance.config.id}"</h1>
   <div>Click outside of this modal to close it!</div>
   <div class="columns">
     <button onclick={() => manager.open({ component: ModalTwo }, { name: "two" })} class="primary">

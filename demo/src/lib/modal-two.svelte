@@ -15,7 +15,7 @@
 </script>
 
 <div class="rows">
-  <h1>I am a modal named "{instance.config.id}"</h1>
+  <h1>I am a modal with id "{instance.config.id}"</h1>
   <div>Click outside of this modal to close it!</div>
   <div class="columns justify-end">
     <button onclick={() => instance.close()} class="secondary">Close</button>

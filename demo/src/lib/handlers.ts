@@ -11,7 +11,7 @@ export const openBasic = (): ModalInstance<ModalTwo> => {
   });
 };
 
-export const openCancelable = (): ModalInstance<ModalTwo> => {
+export const openEscapeable = (): ModalInstance<ModalTwo> => {
   return manager.open({
     id: "modal-two",
     component: Basic,
