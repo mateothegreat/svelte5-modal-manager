@@ -1,4 +1,3 @@
-export { externalClickHandler } from './external-click-handler';
-export { ModalConfig } from './modal-config';
-export { ModalInstance } from './modal-instance';
-export { ModalManager } from './modal-manager';
+export { ModalConfig } from "./config";
+export { ModalInstance } from "./instance.svelte";
+export { manager, ModalManager } from "./manager.svelte";

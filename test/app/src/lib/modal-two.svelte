@@ -1,15 +1,23 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import type { ModalInstance } from '../../../../src/lib/modal-instance';
+  import type { ModalInstance } from "@mateothegreat/svelte5-modal-manager";
+  import { onMount } from "svelte";
 
-  let { instance, name }: { instance: ModalInstance<any>; name: string } = $props();
+  type Props = {
+    instance: ModalInstance<any>;
+    name: string;
+  };
+
+  let { instance, name }: Props = $props();
 
   onMount(() => {
-    console.log('modal two mounted', instance);
+    console.log("modal two mounted", instance);
   });
 </script>
 
-<div style="display: flex; gap: 10px; justify-content: center; align-items: center; background: rebeccapurple; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height: 100%;">
-  <div>I am modal: {name}!</div>
-  <button onclick={() => instance.manager.close(instance.config.id)}>Close</button>
+<div class="rows">
+  <h1>I am a modal named "{instance.config.id}"</h1>
+  <div>Click outside of this modal to close it!</div>
+  <div class="columns justify-end">
+    <button onclick={() => instance.close()} class="secondary">Close</button>
+  </div>
 </div>
