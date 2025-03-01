@@ -1,6 +1,6 @@
 {
   "name": "@mateothegreat/svelte5-modal-manager",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "moduleResolution": "bundler",
   "svelte": "./index.js",
