@@ -15,9 +15,7 @@
   class="fixed bottom-0 right-10 overflow-hidden rounded-t-md border-2 border-b-0 bg-neutral-950 text-xs text-gray-400 border-indigo-500">
   <p class="flex items-center gap-1.5 bg-black/80 p-2 text-sm font-medium text-slate-400">Modal Manager State</p>
   {#if manager.instances.size === 0}
-    <tr>
-      <td class="px-3 py-2 text-left text-indigo-400">No modals open</td>
-    </tr>
+    <div class="px-3 py-2 text-left text-indigo-400">No modals open</div>
   {:else}
     <table class="divide-y divide-gray-900 w-full text-xs text-gray-400">
       <thead>

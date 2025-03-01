@@ -17,7 +17,7 @@
     "moduleResolution": "bundler",
     "paths": {
       "@mateothegreat/svelte5-modal-manager": [
-        "../src/lib/index.ts"
+        "../src/lib/index"
       ],
       "@mateothegreat/svelte5-modal-manager/*": [
         "../src/lib/*"
