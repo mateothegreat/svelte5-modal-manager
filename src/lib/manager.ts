@@ -31,6 +31,7 @@ export class ModalManager {
 
     console.log(config.id, instance.config.id, props);
     instance.manager = this;
+
     instance.overlay = mount<any, ModalProps<P>>(Modal, {
       target: document.body,
       props: {

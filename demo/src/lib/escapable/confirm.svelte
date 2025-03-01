@@ -15,11 +15,14 @@
   <div class="flex gap-2.5 justify-center items-center">
     <button
       onclick={() => {
-        instance.props.close();
+        // Call the `close` function passed in from the parent modal as a prop
+        // to close the parent modal:
+        instance.config.props.close();
+        // Close this modal instance (the confirm modal):
         instance.close();
       }}
       class="bg-green-500 text-white">
-      Close that thing now! 🙇‍♂️
+      Close that bugger now! 🙇‍♂️
     </button>
     <div>or...</div>
     <button onclick={() => instance.close()} class="bg-zinc-500 text-white">Cancel, leave it open 💖</button>
