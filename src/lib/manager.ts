@@ -89,7 +89,3 @@ export class ModalManager {
 }
 
 export const manager = new ModalManager();
-
-setInterval(() => {
-  console.log(manager.instances);
-}, 1000);

@@ -1,5 +1,7 @@
 on:
   push:
+    paths-ignore:
+      - "demo/**"
     branches:
       - main
 name: Build, Test and maybe Publish
