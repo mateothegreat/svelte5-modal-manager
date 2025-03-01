@@ -5,7 +5,7 @@ import type { KeyBinding } from "./keybindings";
 /**
  * Configuration options for a modal.
  */
-export class ModalConfig {
+export class ModalConfig<P = void> {
   /**
    * A unique identifier for the modal.
    */
@@ -24,17 +24,17 @@ export class ModalConfig {
   /**
    * Additional props to pass to the modal component.
    */
-  props?: any;
+  props?: P;
 
   /**
    * Whether to display a backdrop behind the modal.
    */
-  backdrop?: boolean = true;
+  backdrop?: boolean;
 
   /**
    * Whether to close the modal when clicking outside of it.
    */
-  blurrable?: boolean = true;
+  blurrable?: boolean;
 
   /**
    * Keybindings to bind to the modal.
@@ -43,7 +43,7 @@ export class ModalConfig {
    */
   keybindings?: KeyBinding[];
 
-  constructor(obj: ModalConfig) {
+  constructor(obj: Omit<ModalConfig<P>, "id"> & { id?: string }) {
     Object.assign(this, obj);
     this.id = obj.id || Math.random().toString(36).substring(2, 15);
   }

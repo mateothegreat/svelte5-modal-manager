@@ -3,12 +3,14 @@ import { mount, unmount, type Component } from "svelte";
 import { ModalConfig } from "./config";
 import { ModalInstance } from "./instance.svelte";
 import Modal from "./modal.svelte";
+import type { ModalProps } from "./props";
 import { ReactiveMap } from "./utilities.svelte";
+
 export class ModalManager {
   /**
    * A dictionary of all open modals.
    */
-  modals = $state(new ReactiveMap<string, ModalInstance<any, any>>());
+  instances = new ReactiveMap<string, ModalInstance>();
 
   /**
    * Opens a new modal.
@@ -21,14 +23,15 @@ export class ModalManager {
    * @param config - The configuration options for the modal.
    * @param props - Additional properties to pass to the modal component.
    */
-  open<T, V>(config: ModalConfig | Component<any>, props?: T): ModalInstance<T, V> {
+  open<P = void>(config: ModalConfig<P> | Component<any>, props?: P): ModalInstance<P> {
+    console.log(config, props);
     config = typeof config === "function" ? new ModalConfig({ component: config }) : config;
 
-    const instance = new ModalInstance<T>(config);
+    const instance = new ModalInstance<P>(config);
 
-    console.log(config.id, instance.config.id);
+    console.log(config.id, instance.config.id, props);
     instance.manager = this;
-    instance.overlay = mount(Modal, {
+    instance.overlay = mount<any, ModalProps<P>>(Modal, {
       target: document.body,
       props: {
         instance,
@@ -36,9 +39,9 @@ export class ModalManager {
       }
     });
 
-    instance.index = this.modals.size;
+    instance.index = this.instances.size;
 
-    Object.values(this.modals)
+    Object.values(this.instances)
       .filter((modal) => modal.top)
       .forEach((modal) => {
         modal.top = false;
@@ -46,7 +49,7 @@ export class ModalManager {
 
     instance.top = true;
 
-    this.modals.set(instance.config.id, instance);
+    this.instances.set(instance.config.id, instance as ModalInstance<void>);
 
     return instance;
   }
@@ -56,21 +59,16 @@ export class ModalManager {
    * @param id - The unique identifier of the modal to close.
    */
   close(id: string): void {
-    if (!this.modals.has(id)) {
-      console.error(`Modal with id ${id} not found`, this.modals);
-      return;
-    }
+    unmount(this.instances.get(id)?.overlay);
 
-    unmount(this.modals.get(id)?.overlay);
+    this.instances.delete(id);
 
-    this.modals.delete(id);
-
-    Object.values(this.modals).forEach((modal) => {
+    Object.values(this.instances).forEach((modal) => {
       modal.isOnTop = false;
     });
 
-    if (this.modals.size > 0) {
-      const topModal = this.modals.get(Array.from(this.modals.keys())[this.modals.size - 1]);
+    if (this.instances.size > 0) {
+      const topModal = this.instances.get(Array.from(this.instances.keys())[this.instances.size - 1]);
       if (topModal) {
         topModal.top = true;
       }
@@ -83,11 +81,15 @@ export class ModalManager {
    * @returns The index of the modal.
    */
   getIndex(id: string): number {
-    if (this.modals.has(id)) {
-      return this.modals.get(id).index;
+    if (this.instances.has(id)) {
+      return this.instances.get(id).index;
     }
     throw new Error(`modal with id ${id} not found`);
   }
 }
 
 export const manager = new ModalManager();
+
+setInterval(() => {
+  console.log(manager.instances);
+}, 1000);

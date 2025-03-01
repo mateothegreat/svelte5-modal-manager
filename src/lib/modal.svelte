@@ -1,9 +1,10 @@
 <script lang="ts" generics="T">
   import { onDestroy, onMount } from "svelte";
   import type { ModalInstance } from "./instance.svelte";
+  import { Modifier } from "./keybindings";
 
-  interface Props {
-    instance: ModalInstance<T>;
+  interface Props<P = void> {
+    instance: ModalInstance<P>;
     closed?: () => void;
     externalClickEvent?: (e: PointerEvent) => void;
   }
@@ -20,21 +21,18 @@
 
   const handleKeyDown = async (e: KeyboardEvent) => {
     if (instance.config.keybindings && instance.top) {
-      const keybindings = instance.config.keybindings;
-      if (Array.isArray(keybindings)) {
-        for (const binding of keybindings) {
-          if (e.key === binding.key) {
-            const modifiersMatch =
-              !binding.modifiers ||
-              ((!binding.modifiers.ctrl || e.ctrlKey) &&
-                (!binding.modifiers.alt || e.altKey) &&
-                (!binding.modifiers.shift || e.shiftKey) &&
-                (!binding.modifiers.meta || e.metaKey));
+      for (const binding of instance.config.keybindings) {
+        if (e.key === binding.key) {
+          const modifiersMatch =
+            !binding.modifiers ||
+            ((!binding.modifiers.includes(Modifier.Ctrl) || e.ctrlKey) &&
+              (!binding.modifiers.includes(Modifier.Alt) || e.altKey) &&
+              (!binding.modifiers.includes(Modifier.Shift) || e.shiftKey) &&
+              (!binding.modifiers.includes(Modifier.Meta) || e.metaKey));
 
-            if (modifiersMatch) {
-              await binding.handler(instance);
-              return;
-            }
+          if (modifiersMatch) {
+            await binding.fn(instance);
+            return;
           }
         }
       }
