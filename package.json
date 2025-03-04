@@ -17,7 +17,8 @@
   ],
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "build": "rm -rf dist && svelte-package && cp package.json dist"
+    "build": "rm -rf dist && svelte-package && cp package.json dist",
+    "dev": "cd demo && npm run dev"
   },
   "devDependencies": {
     "@sveltejs/package": "^2.3.10",

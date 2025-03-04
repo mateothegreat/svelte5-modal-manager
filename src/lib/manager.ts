@@ -24,12 +24,10 @@ export class ModalManager {
    * @param props - Additional properties to pass to the modal component.
    */
   open<P = void>(config: ModalConfig<P> | Component<any>, props?: P): ModalInstance<P> {
-    console.log(config, props);
     config = typeof config === "function" ? new ModalConfig({ component: config }) : config;
 
     const instance = new ModalInstance<P>(config);
 
-    console.log(config.id, instance.config.id, props);
     instance.manager = this;
 
     instance.overlay = mount<any, ModalProps<P>>(Modal, {
