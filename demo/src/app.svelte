@@ -5,8 +5,6 @@
   import InlineCode from "./lib/components/inline-code.svelte";
   import { openEscapeable } from "./lib/escapable";
 
-  // openEscapeable();
-  openBasic();
   if (import.meta.hot) {
     import.meta.hot.accept(() => {
       import.meta.hot!.invalidate();
