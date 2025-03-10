@@ -9,7 +9,7 @@
     externalClickEvent?: (e: PointerEvent) => void;
   }
 
-  let { instance = $bindable(), closed = $bindable(), externalClickEvent = $bindable(), ...rest }: Props = $props();
+  let { instance = $bindable(), closed = $bindable(), externalClickEvent = $bindable() }: Props = $props();
 
   const handleClick = (e: MouseEvent) => {
     if (instance.config.blurrable) {
@@ -20,9 +20,11 @@
   };
 
   const handleKeyDown = async (e: KeyboardEvent) => {
-    if (instance.config.keybindings && instance.top) {
+    console.log(instance.config.keybindings, instance.config.id, e.key);
+    if (instance.config.keybindings) {
       for (const binding of instance.config.keybindings) {
         if (e.key === binding.key) {
+          console.log("binding", binding);
           const modifiersMatch =
             !binding.modifiers ||
             ((!binding.modifiers.includes(Modifier.Ctrl) || e.ctrlKey) &&
@@ -31,6 +33,7 @@
               (!binding.modifiers.includes(Modifier.Meta) || e.metaKey));
 
           if (modifiersMatch) {
+            console.log("modifiers match", binding);
             await binding.fn(instance);
             return;
           }
@@ -38,7 +41,6 @@
       }
     }
   };
-
   if (instance.config.keybindings && instance.config.keybindings.length > 0) {
     onMount(() => {
       document.addEventListener("keydown", handleKeyDown);
@@ -55,29 +57,45 @@
 
 {#if instance.config.backdrop}
   <div
-    class="modal-backdrop"
     on:mousedown={handleClick}
+    id={instance.config.id}
     style="
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    transition: all 500ms;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  ">
-    <div on:mousedown|stopPropagation aria-modal="true" role="dialog" class="modal-content">
-      <instance.config.component {instance} {...rest} />
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        transition: all 500ms;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      "
+    class={typeof instance.config.backdrop === "object" ? instance.config.backdrop.class : ""}
+    class:modal-backdrop={true}
+    {...typeof instance.config.backdrop === "object" ? instance.config.backdrop.attributes : {}}>
+    <div
+      on:mousedown|stopPropagation
+      aria-modal="true"
+      role="dialog"
+      class={typeof instance.config.dialog === "object" ? instance.config.dialog.class : ""}
+      class:modal-content={true}>
+      <div class="dialog-wrapper">
+        <instance.config.component {instance} />
+      </div>
     </div>
   </div>
 {:else}
-  <div aria-modal="true" role="dialog" class="modal-content">
-    <instance.config.component {instance} {...rest} />
+  <div
+    id={instance.config.id}
+    aria-modal="true"
+    role="dialog"
+    class={typeof instance.config.dialog === "object" ? instance.config.dialog.class : ""}
+    class:modal-content={true}
+    {...typeof instance.config.dialog === "object" ? instance.config.dialog.attributes : {}}>
+    <div class="dialog-wrapper">
+      <instance.config.component {instance} />
+    </div>
   </div>
 {/if}

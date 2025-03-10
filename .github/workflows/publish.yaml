@@ -56,8 +56,10 @@ jobs:
       - name: concat changelogs
         run: |
           cat ${{ steps.git-cliff.outputs.changelog }} > tmp/new_changelog.md
-          cat docs/changelog.md >> tmp/new_changelog.md
-          mv tmp/new_changelog.md docs/changelog.md
+          if [ -f docs/changelog.md ]; then
+            cat docs/changelog.md >> tmp/new_changelog.md
+            mv tmp/new_changelog.md docs/changelog.md
+          fi
       - name: commit
         run: |
           git add docs/changelog.md package.json

@@ -25,6 +25,15 @@ export class ModalInstance<P = void> {
 
   constructor(config: ModalConfig<P>) {
     this.config = new ModalConfig<P>(config);
+    this.props = config.props;
+  }
+
+  /**
+   * Focuses on the modal by setting it to be on top and
+   * reordering the other modals to reflect the new order.
+   */
+  focus() {
+    this.manager.focus(this.config.id);
   }
 
   /**

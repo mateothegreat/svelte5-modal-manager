@@ -1,9 +1,17 @@
 <script lang="ts">
   import { manager } from "@mateothegreat/svelte5-modal-manager";
   import { Github, MessageCircleQuestion, Newspaper } from "lucide-svelte";
-  import { openBasic } from "./lib/basic/handler";
+  import { openBasic } from "./lib/basic";
   import InlineCode from "./lib/components/inline-code.svelte";
-  import { openEscapeable } from "./lib/escapable/handler";
+  import { openEscapeable } from "./lib/escapable";
+
+  // openEscapeable();
+  openBasic();
+  if (import.meta.hot) {
+    import.meta.hot.accept(() => {
+      import.meta.hot!.invalidate();
+    });
+  }
 </script>
 
 <div class="flex flex-col gap-6">
@@ -82,15 +90,17 @@
 </div>
 
 <div
-  class="fixed bottom-0 right-10 overflow-hidden rounded-t-md border-2 border-b-0 bg-neutral-950 text-xs text-gray-400 border-indigo-500">
-  <p class="flex items-center gap-1.5 bg-black/80 p-2 text-sm font-medium text-slate-400">Modal Manager State</p>
+  class="absolute z-[9999] bottom-0 right-10 overflow-hidden rounded-t-md border-2 border-b-0 bg-neutral-950 text-xs text-gray-400 border-indigo-500">
+  <p class="flex items-center gap-1.5 bg-black/80 p-2 font-medium text-slate-400">Modal Manager State</p>
   {#if manager.instances.size === 0}
-    <div class="px-3 py-2 text-left text-indigo-400">No modals open</div>
+    <div class="px-3 py-2 text-center text-slate-600">No modals open 😿</div>
   {:else}
-    <table class="divide-y divide-gray-900 w-full text-xs text-gray-400">
+    <table class="divide-y divide-gray-900 w-full text-gray-400">
       <thead>
         <tr class="text-center tracking-wider text-slate-500">
-          <th class="px-3 py-2 text-left font-medium">Modal Name</th>
+          <th class="px-3 py-2 text-left font-medium">id</th>
+          <th class="px-3 py-2 text-left font-medium">index</th>
+          <th class="px-3 py-2 text-left font-medium">top</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-800 text-center font-mono">
@@ -99,8 +109,11 @@
             <td class="px-3 py-2 text-left text-indigo-400">
               {instance.config.id}
             </td>
-            <td class="px-3 py-2 text-left text-indigo-400">
-              <pre>{JSON.stringify(instance.props, null, 2)}</pre>
+            <td class="px-3 py-2 text-center text-indigo-400">
+              {instance.index}
+            </td>
+            <td class="px-3 py-2 text-center text-indigo-400">
+              {instance.top ? "true" : "false"}
             </td>
           </tr>
         {/each}

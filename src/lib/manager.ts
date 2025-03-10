@@ -23,7 +23,11 @@ export class ModalManager {
    * @param config - The configuration options for the modal.
    * @param props - Additional properties to pass to the modal component.
    */
-  open<P = void>(config: ModalConfig<P> | Component<any>, props?: P): ModalInstance<P> {
+  open<P = unknown>(config: ModalConfig<P> | Component<any>, props?: P): ModalInstance<P> {
+    if ("id" in config && document.getElementById(config.id)) {
+      throw new Error(`modal with id (or an element with the same id) "${config.id}" already exists`);
+    }
+
     config = typeof config === "function" ? new ModalConfig({ component: config }) : config;
 
     const instance = new ModalInstance<P>(config);
@@ -38,17 +42,9 @@ export class ModalManager {
       }
     });
 
-    instance.index = this.instances.size;
-
-    Object.values(this.instances)
-      .filter((modal) => modal.top)
-      .forEach((modal) => {
-        modal.top = false;
-      });
-
-    instance.top = true;
-
     this.instances.set(instance.config.id, instance as ModalInstance<void>);
+    instance.index = this.instances.size;
+    this.reorder();
 
     return instance;
   }
@@ -58,6 +54,7 @@ export class ModalManager {
    * @param id - The unique identifier of the modal to close.
    */
   close(id: string): void {
+    console.log("closing", id, this.instances.get(id)?.overlay);
     unmount(this.instances.get(id)?.overlay);
 
     this.instances.delete(id);
@@ -66,24 +63,64 @@ export class ModalManager {
       modal.isOnTop = false;
     });
 
-    if (this.instances.size > 0) {
-      const topModal = this.instances.get(Array.from(this.instances.keys())[this.instances.size - 1]);
-      if (topModal) {
-        topModal.top = true;
-      }
-    }
+    this.reorder();
   }
 
   /**
-   * Gets the index of a modal.
-   * @param id - The unique identifier of the modal.
-   * @returns The index of the modal.
+   * Focuses on a modal by setting it to be on top and
+   * reordering the other modals to reflect the new order.
    */
-  getIndex(id: string): number {
-    if (this.instances.has(id)) {
-      return this.instances.get(id).index;
+  focus(id: string) {
+    const instance = this.instances.get(id);
+    if (!instance) throw new Error(`modal with id ${id} not found`);
+
+    // First, set all modals to not be on top
+    for (const modal of this.instances.values()) {
+      modal.top = false;
     }
-    throw new Error(`modal with id ${id} not found`);
+
+    // Set the specified modal to be on top
+    instance.top = true;
+
+    // Update indices to maintain proper stacking order
+    const maxIndex = this.instances.size - 1;
+    const currentIndex = instance.index;
+
+    // Move all modals that were above this one down by 1
+    for (const modal of this.instances.values()) {
+      if (modal.index > currentIndex) {
+        console.log("moving down", modal.config.id, modal.index, modal.index - 1);
+        modal.index--;
+      }
+    }
+
+    // Set the focused modal to the top position (highest index)
+    instance.index = maxIndex;
+
+    // Ensure all other modals have sequential indices
+    const modals = Array.from(this.instances.values()).sort((a, b) => a.index - b.index);
+    modals.forEach((modal, i) => {
+      modal.index = i;
+    });
+  }
+
+  /**
+   * Reorders modal indices to maintain sequential order
+   */
+  private reorder(): void {
+    const modals = Array.from(this.instances.values()).sort((a, b) => a.index - b.index);
+    modals.forEach((modal, i) => {
+      console.log("reordering", modal.config.id, modal.index, i);
+      modal.index = i;
+
+      // Set the last modal as top
+      if (i === modals.length - 1) {
+        console.log("setting last modal as top", modal.config.id, modal.index);
+        modal.top = true;
+      } else {
+        modal.top = false;
+      }
+    });
   }
 }
 

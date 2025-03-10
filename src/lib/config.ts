@@ -12,9 +12,22 @@ export class ModalConfig<P = void> {
   id?: string;
 
   /**
-   * Additional classes to apply to the modal.
+   * Backdrop configuration.
    */
-  classes?: string;
+  backdrop?:
+    | boolean
+    | {
+        class?: string;
+        attributes?: Record<string, string>;
+      };
+
+  /**
+   * Dialog configuration.
+   */
+  dialog?: {
+    class?: string;
+    attributes?: Record<string, string>;
+  };
 
   /**
    * The Svelte component to render inside the modal.
@@ -25,11 +38,6 @@ export class ModalConfig<P = void> {
    * Additional props to pass to the modal component.
    */
   props?: P;
-
-  /**
-   * Whether to display a backdrop behind the modal.
-   */
-  backdrop?: boolean;
 
   /**
    * Whether to close the modal when clicking outside of it.
@@ -43,6 +51,36 @@ export class ModalConfig<P = void> {
    */
   keybindings?: KeyBinding[];
 
+  /**
+   * Constructor for the ModalConfig class.
+   *
+   * @param obj - Can be a ModalConfig object, or a component directly.
+   *
+   * @example
+   * ```ts
+   * const intance = manager.open<CustomBasicProps>(
+   *   {
+   *     component: Basic,
+   *     backdrop: {
+   *       class: "custom-backdrop-class",
+   *       attributes: {
+   *         "data-test": "backdrop"
+   *       }
+   *     },
+   *     dialog: {
+   *       class: "custom-dialog-class",
+   *       attributes: {
+   *         "data-test": "dialog"
+   *       }
+   *     }
+   *   },
+   *   {
+   *     bar: "baz",
+   *     random: Math.random().toString(36).substring(2, 15)
+   *   }
+   * );
+   * ```
+   */
   constructor(obj: Omit<ModalConfig<P>, "id"> & { id?: string }) {
     Object.assign(this, obj);
     this.id = obj.id || Math.random().toString(36).substring(2, 15);
