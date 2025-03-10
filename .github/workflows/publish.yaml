@@ -55,11 +55,15 @@ jobs:
         run: npm version ${{ steps.tag.outputs.new_tag }} --force
       - name: concat changelogs
         run: |
+          mkdir -p docs
+          ls -la
           cat ${{ steps.git-cliff.outputs.changelog }} > tmp/new_changelog.md
           if [ -f docs/changelog.md ]; then
+            echo 1
             cat docs/changelog.md >> tmp/new_changelog.md
-            mv tmp/new_changelog.md docs/changelog.md
           fi
+          ls -la
+          mv tmp/new_changelog.md docs/changelog.md
       - name: commit
         run: |
           git add docs/changelog.md package.json
