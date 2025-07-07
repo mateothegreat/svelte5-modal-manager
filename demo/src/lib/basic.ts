@@ -5,13 +5,7 @@ import Basic from "./basic.svelte";
 export const openBasic = (): ModalInstance<CustomBasicProps> => {
   return manager.open<CustomBasicProps>({
     component: Basic,
-    // backdrop: {
-    //   class: "custom-backdrop-class",
-    //   attributes: {
-    //     "data-where-am-i": "backdrop",
-    //     "data-my-component-name": "basic.svelte"
-    //   }
-    // },
+    backdrop: true,
     dialog: {
       attributes: {
         "data-where-am-i": "dialog",

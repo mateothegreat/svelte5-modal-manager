@@ -33,7 +33,8 @@ export class ModalManager {
     const instance = new ModalInstance<P>(config);
 
     instance.manager = this;
-
+    this.instances.set(instance.config.id, instance as ModalInstance<void>);
+    instance.index = this.instances.size;
     instance.overlay = mount<any, ModalProps<P>>(Modal, {
       target: document.body,
       props: {
@@ -42,8 +43,6 @@ export class ModalManager {
       }
     });
 
-    this.instances.set(instance.config.id, instance as ModalInstance<void>);
-    instance.index = this.instances.size;
     this.reorder();
 
     return instance;
@@ -112,7 +111,6 @@ export class ModalManager {
 
       // Set the last modal as top
       if (i === modals.length - 1) {
-        console.log("setting last modal as top", modal.config.id, modal.index);
         modal.top = true;
       } else {
         modal.top = false;

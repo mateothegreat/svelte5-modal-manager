@@ -52,29 +52,31 @@
   }
 
   const backdrop = (
-    v: typeof instance.config.backdrop | boolean
-  ): { class?: string; attributes?: Record<string, string> } | false => {
-    if (typeof v === "object") {
-      return v;
-    } else if (typeof v === "boolean" && v) {
-      return {
-        class: "modal-backdrop",
-        attributes: {}
-      };
-    } else if (v === false) {
-      return false;
-    } else {
+    v: typeof instance.config.backdrop
+  ): { class?: string; attributes?: Record<string, string> } | null => {
+    console.log(typeof v, v);
+    if (typeof v === "undefined") {
       return {
         class: "modal-backdrop",
         attributes: {}
       };
     }
+    if (typeof v === "boolean" && v === false) {
+      return null;
+    }
+    if (v === true) {
+      return {
+        class: "modal-backdrop",
+        attributes: {}
+      };
+    }
+    return v as { class?: string; attributes?: Record<string, string> };
   };
 
   const backdropConfig = backdrop(instance.config.backdrop);
 </script>
 
-{#if backdropConfig && instance.manager.instances.size === 0}
+{#if backdropConfig && instance.index === 0}
   <div
     onmousedown={handleClick}
     id={instance.config.id}
@@ -101,10 +103,7 @@
       class={instance.config.dialog?.class}
       class:modal-content={true}
       {...instance.config.dialog?.attributes}>
-      {JSON.stringify(instance.config.dialog)}
-      <div class="dialog-wrapper">
-        <instance.config.component {instance} />
-      </div>
+      <instance.config.component {instance} />
     </div>
   </div>
 {:else}
@@ -126,8 +125,6 @@
         justify-content: center;
         align-items: center;
       ">
-    <div class="dialog-wrapper">
-      <instance.config.component {instance} />
-    </div>
+    <instance.config.component {instance} />
   </div>
 {/if}
