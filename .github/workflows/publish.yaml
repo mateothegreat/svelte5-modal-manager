@@ -4,8 +4,6 @@ on:
     paths:
       - src/**
       - tsconfig.json
-      - package.json
-      - package-lock.json
     branches:
       - main
 name: release
