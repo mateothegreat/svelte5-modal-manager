@@ -68,10 +68,8 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
       - name: install
         run: npm install
-      - name: build
-        run: npm run build
-      - name: publish
-        run: npm publish
+      - name: release
+        run: npm run release
       - name: create github release
         uses: softprops/action-gh-release@v2
         with:

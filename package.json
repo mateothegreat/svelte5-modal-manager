@@ -2,22 +2,27 @@
   "name": "@mateothegreat/svelte5-modal-manager",
   "version": "0.2.10",
   "type": "module",
+  "types": "./dist/index.js",
   "exports": {
     ".": {
-      "types": "./src/index.ts",
-      "svelte": "./src/index.ts"
-    }
+      "types": "./dist/index.js",
+      "svelte": "./dist/index.js"
+    },
+    "./": "./dist/index.ts"
   },
   "files": [
-    "./src"
+    "src",
+    "dist"
   ],
   "scripts": {
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build": "rm -rf dist && svelte-package && cp package.json dist",
-    "dev": "cd demo && npm run dev"
+    "dev": "cd demo && npm run dev",
+    "package": "rm -rf dist && svelte-package",
+    "release": "npm run package && npm publish"
   },
   "devDependencies": {
-    "@sveltejs/package": "^2.3.10",
+    "@sveltejs/package": "^2.3.12",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
     "@testing-library/svelte": "^5.2.8",
     "@tsconfig/svelte": "^5.0.4",
