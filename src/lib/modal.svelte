@@ -54,7 +54,6 @@
   const backdrop = (
     v: typeof instance.config.backdrop
   ): { class?: string; attributes?: Record<string, string> } | null => {
-    console.log(typeof v, v);
     if (typeof v === "undefined") {
       return {
         class: "modal-backdrop",
