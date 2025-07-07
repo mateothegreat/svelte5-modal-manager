@@ -71,10 +71,10 @@
     }
   };
 
-  const backdropConfig = $derived(backdrop(instance.config.backdrop));
+  const backdropConfig = backdrop(instance.config.backdrop);
 </script>
 
-{#if backdropConfig}
+{#if backdropConfig && instance.manager.instances.size === 0}
   <div
     onmousedown={handleClick}
     id={instance.config.id}
@@ -101,6 +101,7 @@
       class={instance.config.dialog?.class}
       class:modal-content={true}
       {...instance.config.dialog?.attributes}>
+      {JSON.stringify(instance.config.dialog)}
       <div class="dialog-wrapper">
         <instance.config.component {instance} />
       </div>
@@ -120,8 +121,6 @@
         left: 0;
         right: 0;
         top: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
         transition: all 500ms;
         display: flex;
         justify-content: center;

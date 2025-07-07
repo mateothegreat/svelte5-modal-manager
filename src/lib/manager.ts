@@ -54,7 +54,6 @@ export class ModalManager {
    * @param id - The unique identifier of the modal to close.
    */
   close(id: string): void {
-    console.log("closing", id, this.instances.get(id)?.overlay);
     unmount(this.instances.get(id)?.overlay);
 
     this.instances.delete(id);
@@ -89,7 +88,6 @@ export class ModalManager {
     // Move all modals that were above this one down by 1
     for (const modal of this.instances.values()) {
       if (modal.index > currentIndex) {
-        console.log("moving down", modal.config.id, modal.index, modal.index - 1);
         modal.index--;
       }
     }
@@ -110,7 +108,6 @@ export class ModalManager {
   private reorder(): void {
     const modals = Array.from(this.instances.values()).sort((a, b) => a.index - b.index);
     modals.forEach((modal, i) => {
-      console.log("reordering", modal.config.id, modal.index, i);
       modal.index = i;
 
       // Set the last modal as top
