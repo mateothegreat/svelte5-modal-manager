@@ -15,11 +15,11 @@ export class ModalConfig<P = void> {
    * Backdrop configuration.
    */
   backdrop?:
-    | boolean
     | {
         class?: string;
         attributes?: Record<string, string>;
-      };
+      }
+    | boolean;
 
   /**
    * Dialog configuration.

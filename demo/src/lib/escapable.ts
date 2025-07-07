@@ -26,7 +26,7 @@ export const openEscapeable = (): ModalInstance<EscapableProps> => {
   const instance = manager.open<EscapableProps>({
     id: "modal-escapable",
     component: Modal,
-    backdrop: true,
+    backdrop: false,
     keybindings: [
       {
         key: Key.Escape,
@@ -35,7 +35,13 @@ export const openEscapeable = (): ModalInstance<EscapableProps> => {
             instance.manager.open<EscapableProps>({
               id: `${instance.config.id}-escapable`,
               component: CloseConfirmation,
-              backdrop: true,
+              backdrop: {
+                class: "custom-backdrop-class",
+                attributes: {
+                  "data-where-am-i": "backdrop",
+                  "data-my-component-name": "escapable.svelte"
+                }
+              },
               props: {
                 ref: instance as unknown as ModalInstance<EscapableProps>,
                 close: (parent: ModalInstance<EscapableProps>) => {

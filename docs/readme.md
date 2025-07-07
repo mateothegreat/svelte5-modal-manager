@@ -37,10 +37,10 @@ It's a simple object that has the following properties available as options:
 | name          | default      | description                                                         |
 | ------------- | ------------ | ------------------------------------------------------------------- |
 | `id`          | optional     | A unique identifier for the modal (auto-generated if not provided). |
-| `classes`     | optional     | Additional CSS classes to apply to the modal.                       |
 | `component`   | **required** | The Svelte component to render inside the modal.                    |
 | `props`       | optional     | Additional props to pass to the modal component.                    |
-| `backdrop`    | optional     | Whether to display a backdrop behind the modal.                     |
+| `backdrop`    | optional     | Whether to display a backdrop behind the modal, or backdrop configuration object. |
+| `dialog`      | optional     | Configuration object for the dialog element (class, attributes).    |
 | `blurrable`   | optional     | Whether to close the modal when clicking outside of it.             |
 | `keybindings` | optional     | Array of KeyBinding objects for keyboard interactions.              |
 
@@ -188,6 +188,53 @@ manager.open({
 });
 ```
 
+### Advanced Backdrop Configuration
+
+You can also provide a backdrop configuration object to customize the backdrop element:
+
+```ts
+import { manager } from "@mateothegreat/svelte5-modal-manager";
+
+manager.open({
+  component: MyModalComponent,
+  backdrop: {
+    class: "custom-backdrop-class",
+    attributes: {
+      "data-test": "backdrop",
+      "data-backdrop-type": "blur"
+    }
+  }
+});
+```
+
+## Dialog Configuration
+
+The modal manager allows you to configure the dialog element that wraps your modal content.
+
+You can customize the dialog element by providing a `dialog` configuration object:
+
+```ts
+import { manager } from "@mateothegreat/svelte5-modal-manager";
+
+manager.open({
+  component: MyModalComponent,
+  dialog: {
+    class: "custom-dialog-class",
+    attributes: {
+      "data-test": "dialog",
+      "aria-describedby": "modal-description",
+      "aria-labelledby": "modal-title"
+    }
+  }
+});
+```
+
+This is particularly useful for:
+- Adding custom CSS classes to the dialog element
+- Setting accessibility attributes like `aria-describedby` and `aria-labelledby`
+- Adding data attributes for testing purposes
+- Adding any other HTML attributes you need
+
 ## Blurrable
 
 The modal manager includes a blurrable feature out of the box.
@@ -209,17 +256,26 @@ manager.open({
 
 ## Other Customizations
 
-The modal manager is highly customizable.
+The modal manager is highly customizable through the `backdrop` and `dialog` configuration objects.
 
-One of the most common customizations is to change the classes that are applied to the
-root modal element.
-
-To do this, you can pass a `classes` property to the `ModalConfig` object when opening the modal:
+For example, you can combine both backdrop and dialog customizations:
 
 ```ts
 import { manager } from "@mateothegreat/svelte5-modal-manager";
 
 manager.open({
   component: MyModalComponent,
-  classes: "bg-red-500 text-purple-500",
+  backdrop: {
+    class: "bg-black/80 backdrop-blur-md",
+    attributes: {
+      "data-test": "backdrop"
+    }
+  },
+  dialog: {
+    class: "bg-white rounded-lg shadow-xl p-6",
+    attributes: {
+      "data-test": "dialog",
+      "aria-label": "Custom Modal"
+    }
+  }
 });

@@ -20,11 +20,9 @@
   };
 
   const handleKeyDown = async (e: KeyboardEvent) => {
-    console.log(instance.config.keybindings, instance.config.id, e.key);
     if (instance.config.keybindings) {
       for (const binding of instance.config.keybindings) {
         if (e.key === binding.key) {
-          console.log("binding", binding);
           const modifiersMatch =
             !binding.modifiers ||
             ((!binding.modifiers.includes(Modifier.Ctrl) || e.ctrlKey) &&
@@ -33,7 +31,6 @@
               (!binding.modifiers.includes(Modifier.Meta) || e.metaKey));
 
           if (modifiersMatch) {
-            console.log("modifiers match", binding);
             await binding.fn(instance);
             return;
           }
@@ -53,11 +50,33 @@
       }
     });
   }
+
+  const backdrop = (
+    v: typeof instance.config.backdrop | boolean
+  ): { class?: string; attributes?: Record<string, string> } | false => {
+    if (typeof v === "object") {
+      return v;
+    } else if (typeof v === "boolean" && v) {
+      return {
+        class: "modal-backdrop",
+        attributes: {}
+      };
+    } else if (v === false) {
+      return false;
+    } else {
+      return {
+        class: "modal-backdrop",
+        attributes: {}
+      };
+    }
+  };
+
+  const backdropConfig = $derived(backdrop(instance.config.backdrop));
 </script>
 
-{#if instance.config.backdrop}
+{#if backdropConfig}
   <div
-    on:mousedown={handleClick}
+    onmousedown={handleClick}
     id={instance.config.id}
     style="
         position: fixed;
@@ -72,15 +91,16 @@
         justify-content: center;
         align-items: center;
       "
-    class={typeof instance.config.backdrop === "object" ? instance.config.backdrop.class : ""}
+    class={backdropConfig.class}
     class:modal-backdrop={true}
-    {...typeof instance.config.backdrop === "object" ? instance.config.backdrop.attributes : {}}>
+    {...backdropConfig.attributes}>
     <div
-      on:mousedown|stopPropagation
+      onmousedown={(e) => e.stopPropagation()}
       aria-modal="true"
       role="dialog"
-      class={typeof instance.config.dialog === "object" ? instance.config.dialog.class : ""}
-      class:modal-content={true}>
+      class={instance.config.dialog?.class}
+      class:modal-content={true}
+      {...instance.config.dialog?.attributes}>
       <div class="dialog-wrapper">
         <instance.config.component {instance} />
       </div>
@@ -91,9 +111,22 @@
     id={instance.config.id}
     aria-modal="true"
     role="dialog"
-    class={typeof instance.config.dialog === "object" ? instance.config.dialog.class : ""}
+    class={instance.config.dialog?.class}
     class:modal-content={true}
-    {...typeof instance.config.dialog === "object" ? instance.config.dialog.attributes : {}}>
+    {...instance.config.dialog?.attributes}
+    style="
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        transition: all 500ms;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      ">
     <div class="dialog-wrapper">
       <instance.config.component {instance} />
     </div>
