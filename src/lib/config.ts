@@ -9,7 +9,7 @@ export class ModalConfig<P = void> {
   /**
    * A unique identifier for the modal.
    */
-  id?: string;
+  id: string;
 
   /**
    * Backdrop configuration.
