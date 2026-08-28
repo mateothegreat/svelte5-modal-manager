@@ -18,7 +18,7 @@ export class ModalInstance<P = void> {
   index = $state(-1);
 
   // Additional properties to pass to the modal component.
-  props?: P;
+  props = $state<P | undefined>(undefined);
 
   // Whether the modal is on top of the stack.
   top = $state(false);
