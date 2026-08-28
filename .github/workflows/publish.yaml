@@ -68,7 +68,7 @@ jobs:
       - name: write to .npmrc
         run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
       - name: install
-        run: npm install
+        run: pnpm install
       - name: release
         run: npm run release
       - name: create github release
