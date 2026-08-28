@@ -6,7 +6,7 @@ import { ModalConfig } from "./config";
  */
 const mockComponent = vi.fn();
 
-describe("ModalConfig", () => {
+describe("ModalConfiddg", () => {
   describe("Constructor", () => {
     it("should create a config with dialog attributes", () => {
       const config = new ModalConfig({
