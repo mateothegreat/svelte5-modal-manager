@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { GitMerge, MessageCircleQuestion, Newspaper } from "@lucide/svelte";
   import { manager } from "@mateothegreat/svelte5-modal-manager";
-  import { Github, MessageCircleQuestion, Newspaper } from "lucide-svelte";
   import { openBasic } from "./lib/basic";
   import InlineCode from "./lib/components/inline-code.svelte";
   import { openEscapeable } from "./lib/escapable";
@@ -32,7 +32,7 @@
       </div>
       <div
         class="flex h-9 cursor-pointer items-center gap-1 rounded-sm border-2 border-slate-400 bg-slate-600 p-2 transition-all duration-500 hover:bg-blue-600">
-        <Github class="h-5 w-5" />
+        <GitMerge class="h-5 w-5" />
         <a target="_blank" href="https://github.com/mateothegreat/svelte5-modal-manager" class="">
           GitHub Repository
         </a>

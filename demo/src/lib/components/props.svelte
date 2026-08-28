@@ -1,7 +1,13 @@
 <script lang="ts" generics="P">
   import type { ModalInstance } from "@mateothegreat/svelte5-modal-manager";
 
-  let { instance }: { instance: ModalInstance<P> } = $props();
+  type DirectProps = {
+    instance: ModalInstance<P>;
+    bar?: string;
+    random?: string;
+  };
+
+  let { instance, bar, random }: DirectProps = $props();
 </script>
 
 <div class="bg-black/75 text-sm rounded-lg border-4 border-pink-700 p-3 flex flex-col gap-2">
@@ -25,6 +31,14 @@
         <td class="p-1 align-top">
           <pre class="text-xs text-slate-600 p-1">{JSON.stringify(instance.props, null, 2)}</pre>
         </td>
+      </tr>
+      <tr>
+        <td class="text-slate-500 py-1 align-top">direct props (bar):</td>
+        <td class="p-1 align-top">{bar ?? ""}</td>
+      </tr>
+      <tr>
+        <td class="text-slate-500 py-1 align-top">direct props (random):</td>
+        <td class="p-1 align-top">{random ?? ""}</td>
       </tr>
     </tbody>
   </table>

@@ -81,6 +81,7 @@
     id={instance.config.id}
     style="
         position: fixed;
+        z-index: 9999;
         bottom: 0;
         left: 0;
         right: 0;
@@ -102,7 +103,7 @@
       class={instance.config.dialog?.class}
       class:modal-content={true}
       {...instance.config.dialog?.attributes}>
-      <instance.config.component {instance} />
+      <instance.config.component {...instance.props ?? {}} {instance} />
     </div>
   </div>
 {:else}
@@ -115,6 +116,7 @@
     {...instance.config.dialog?.attributes}
     style="
         position: fixed;
+        z-index: 9999;
         bottom: 0;
         left: 0;
         right: 0;
@@ -124,6 +126,6 @@
         justify-content: center;
         align-items: center;
       ">
-    <instance.config.component {instance} />
+    <instance.config.component {...instance.props ?? {}} {instance} />
   </div>
 {/if}

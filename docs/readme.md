@@ -38,7 +38,7 @@ It's a simple object that has the following properties available as options:
 | ------------- | ------------ | ------------------------------------------------------------------- |
 | `id`          | optional     | A unique identifier for the modal (auto-generated if not provided). |
 | `component`   | **required** | The Svelte component to render inside the modal.                    |
-| `props`       | optional     | Additional props to pass to the modal component.                    |
+| `props`       | optional     | Additional props to pass to the modal component (delivered both as direct props and on `instance.props`). |
 | `backdrop`    | optional     | Whether to display a backdrop behind the modal, or backdrop configuration object. |
 | `dialog`      | optional     | Configuration object for the dialog element (class, attributes).    |
 | `blurrable`   | optional     | Whether to close the modal when clicking outside of it.             |
@@ -99,6 +99,28 @@ First, let's create a custom modal component that we can open using the modal ma
 
 > [!NOTE] When the modal manager instantiates your `component`, it will pass in a `ModalInstance` object as a prop
 > so you can interact with the manager from within your component.
+
+## Custom Props
+
+Custom props passed via the `props` field of `ModalConfig` are delivered to your component in **two ways**:
+
+1. As **direct component props** — spread onto your component, so you can consume them via `$props()` alongside `instance`.
+2. On `instance.props` — the original object remains accessible for backwards compatibility.
+
+```ts
+<script lang="ts">
+  import type { ModalProps } from "@mateothegreat/svelte5-modal-manager";
+
+  let { instance, name }: ModalProps & { name?: string } = $props();
+
+  // Both of these work:
+  console.log(name); // direct prop
+  console.log(instance.props.name); // same value, via instance
+</script>
+```
+
+> [!NOTE] The `instance` prop is reserved: the manager always passes the real `ModalInstance` object after your
+> custom props are spread, so a custom prop named `instance` can never clobber it.
 
 Now, to open the modal, you can do the following:
 
