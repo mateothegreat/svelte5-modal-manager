@@ -32,7 +32,7 @@ export class ModalConfig<P = void> {
   /**
    * The Svelte component to render inside the modal.
    */
-  component: Component;
+  component: Component<P>;
 
   /**
    * Additional props to pass to the modal component.
