@@ -1,11 +1,12 @@
 import type { Component } from "svelte";
 
 import type { KeyBinding } from "./keybindings";
+import type { ModalProps } from "./props";
 
 /**
  * Configuration options for a modal.
  */
-export class ModalConfig<P = void> {
+export class ModalConfig<P = unknown> {
   /**
    * A unique identifier for the modal.
    */
@@ -31,8 +32,11 @@ export class ModalConfig<P = void> {
 
   /**
    * The Svelte component to render inside the modal.
+   *
+   * The manager injects `instance` alongside your own props, so the component
+   * receives `ModalProps<P>` rather than a bare `P`.
    */
-  component: Component<P>;
+  component: Component<ModalProps<P>>;
 
   /**
    * Additional props to pass to the modal component.
@@ -49,7 +53,7 @@ export class ModalConfig<P = void> {
    * Can be either a simple record of key to handler or an array of KeyBinding objects
    * for more complex key combinations.
    */
-  keybindings?: KeyBinding[];
+  keybindings?: KeyBinding<P>[];
 
   /**
    * Constructor for the ModalConfig class.

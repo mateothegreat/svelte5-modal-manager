@@ -1,7 +1,7 @@
 import type { ModalManager } from ".";
 import { ModalConfig } from "./config";
 
-export class ModalInstance<P = void> {
+export class ModalInstance<P = unknown> {
   // The manager that created the instance.
   manager: ModalManager;
 

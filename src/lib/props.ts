@@ -1,6 +1,6 @@
 import type { ModalInstance } from "./instance.svelte";
 
-export type ModalProps<P = void> = {
+export type ModalProps<P = unknown> = {
   instance: ModalInstance<P>;
   dialog?: {
     class?: string;

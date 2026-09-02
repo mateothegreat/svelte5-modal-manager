@@ -1,6 +1,7 @@
 import { manager, type ModalInstance } from "@mateothegreat/svelte5-modal-manager";
 
 import Basic from "./basic.svelte";
+import type { CustomBasicProps } from "./props";
 
 const prop = $state({
   foo: "bar",

@@ -9,8 +9,12 @@ import { ReactiveMap } from "./utilities.svelte";
 export class ModalManager {
   /**
    * A dictionary of all open modals.
+   *
+   * Each entry carries its own props type, so the registry is intentionally
+   * unparameterized: `ModalConfig.component` is contravariant in its props and
+   * no single `P` can stand in for every open modal.
    */
-  instances = new ReactiveMap<string, ModalInstance>();
+  instances = new ReactiveMap<string, ModalInstance<any>>();
 
   /**
    * Opens a new modal.
@@ -45,7 +49,7 @@ export class ModalManager {
     const instance = new ModalInstance<P>(config);
 
     instance.manager = this;
-    this.instances.set(instance.config.id, instance as ModalInstance<void>);
+    this.instances.set(instance.config.id, instance);
     instance.index = this.instances.size;
     instance.overlay = mount<any, ModalProps<P>>(Modal, {
       target: document.body,

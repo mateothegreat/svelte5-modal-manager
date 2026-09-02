@@ -1,9 +1,9 @@
-<script lang="ts" generics="T">
+<script lang="ts" generics="P">
   import { onDestroy, onMount } from "svelte";
   import type { ModalInstance } from "./instance.svelte";
   import { Modifier } from "./keybindings";
 
-  interface Props<P = void> {
+  interface Props {
     instance: ModalInstance<P>;
     closed?: () => void;
     externalClickEvent?: (e: PointerEvent) => void;

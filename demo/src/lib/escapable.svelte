@@ -2,6 +2,7 @@
   import type { ModalProps } from "@mateothegreat/svelte5-modal-manager";
   import InlineCode from "./components/inline-code.svelte";
   import Props from "./components/props.svelte";
+  import type { EscapableProps } from "./escapable";
   import { globalStyle } from "./styles";
   /**
    * This is the reference to the modal instance that is accessible
@@ -10,7 +11,7 @@
    * This is passed in automatically by the manager for
    * all modals.
    */
-  let { instance }: ModalProps = $props();
+  let { instance }: ModalProps<EscapableProps> = $props();
 </script>
 
 <div class="flex flex-col gap-4 items-end">

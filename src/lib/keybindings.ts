@@ -3,7 +3,7 @@ import type { ModalInstance } from "./instance.svelte";
 /**
  * Represents a key binding configuration with an optional modifier key
  */
-export type KeyBinding<P = void> = {
+export type KeyBinding<P = unknown> = {
   /**
    * The key to listen for (e.g., 'a', 'Enter', 'Escape', etc.)
    */

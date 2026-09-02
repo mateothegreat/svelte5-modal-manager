@@ -2,15 +2,8 @@
   import type { ModalProps } from "@mateothegreat/svelte5-modal-manager";
   import { openBasic } from "./basicsettings.svelte";
   import Props from "./components/props.svelte";
+  import type { CustomBasicProps } from "./props";
   import { globalStyle } from "./styles";
-
-  /**
-   * This is a custom props object that will be passed through to
-   * the modal instance when the modal is opened.
-   */
-  type CustomEscapableProps = {
-    bar: string;
-  };
 
   /**
    * This is the reference to the modal instance that is accessible
@@ -19,7 +12,7 @@
    * This is passed in automatically by the manager for
    * all modals.
    */
-  let { instance, ...rest }: ModalProps<CustomEscapableProps> = $props();
+  let { instance, ...rest }: ModalProps<CustomBasicProps> = $props();
 
   setTimeout(() => {
     instance.props.state.foo = "rab";
