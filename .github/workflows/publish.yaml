@@ -10,6 +10,7 @@ name: release
 permissions:
   contents: write
   packages: write
+  id-token: write
 concurrency:
   group: release
   cancel-in-progress: false
@@ -65,8 +66,8 @@ jobs:
           git add docs/changelog.md package.json
           git commit -am "chore(release): update changelog and bumping package.json"
           git push origin HEAD:main
-      - name: write to .npmrc
-        run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
+      # - name: write to .npmrc
+      #   run: echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_TOKEN}}" > ~/.npmrc
       - name: install
         run: |
           npm install -g pnpm
