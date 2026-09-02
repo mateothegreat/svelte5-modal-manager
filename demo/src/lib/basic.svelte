@@ -12,10 +12,10 @@
    * This is passed in automatically by the manager for
    * all modals.
    */
-  let { instance, ...rest }: ModalProps<CustomBasicProps> = $props();
+  let { instance, state, ...rest }: ModalProps<CustomBasicProps> = $props();
 
   setTimeout(() => {
-    instance.props.state.foo = "rab";
+    state.foo = "rab";
   }, 500);
 </script>
 

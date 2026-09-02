@@ -2,6 +2,7 @@
   import { onDestroy, onMount } from "svelte";
   import type { ModalInstance } from "./instance.svelte";
   import { Modifier } from "./keybindings";
+  import type { ModalProps } from "./props";
 
   interface Props {
     instance: ModalInstance<P>;
@@ -73,6 +74,11 @@
   };
 
   const backdropConfig = backdrop(instance.config.backdrop);
+
+  // Generic spreads collapse to `{}`, so assert the payload plus `instance`.
+  const innerProps = $derived(
+    ({ ...(instance.props ?? {}), instance }) as ModalProps<P>
+  );
 </script>
 
 {#if backdropConfig && instance.index === 0}
@@ -103,7 +109,7 @@
       class={instance.config.dialog?.class}
       class:modal-content={true}
       {...instance.config.dialog?.attributes}>
-      <instance.config.component {...instance.props ?? {}} {instance} />
+      <instance.config.component {...innerProps} />
     </div>
   </div>
 {:else}
@@ -126,6 +132,6 @@
         justify-content: center;
         align-items: center;
       ">
-    <instance.config.component {...instance.props ?? {}} {instance} />
+    <instance.config.component {...innerProps} />
   </div>
 {/if}
