@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ModalProps } from "@mateothegreat/svelte5-modal-manager";
-  import { openBasic } from "./basic";
+  import { openBasic } from "./basicsettings.svelte";
   import Props from "./components/props.svelte";
   import { globalStyle } from "./styles";
 
@@ -20,6 +20,10 @@
    * all modals.
    */
   let { instance, ...rest }: ModalProps<CustomEscapableProps> = $props();
+
+  setTimeout(() => {
+    instance.props.state.foo = "rab";
+  }, 500);
 </script>
 
 <div class="flex flex-col gap-4 items-end">

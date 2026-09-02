@@ -11,7 +11,7 @@ import { defineConfig } from "vite";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [svelte(), tailwindcss()],
   resolve: {
     alias: {
       "@mateothegreat/svelte5-modal-manager": path.resolve(__dirname, "../src/lib")

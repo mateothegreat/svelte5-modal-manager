@@ -1,7 +1,7 @@
 <script lang="ts">
   import { GitMerge, MessageCircleQuestion, Newspaper } from "@lucide/svelte";
   import { manager } from "@mateothegreat/svelte5-modal-manager";
-  import { openBasic } from "./lib/basic";
+  import { openBasic } from "./lib/basicsettings.svelte";
   import InlineCode from "./lib/components/inline-code.svelte";
   import { openEscapeable } from "./lib/escapable";
 
