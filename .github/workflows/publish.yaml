@@ -1,6 +1,11 @@
 on:
   workflow_dispatch:
+
   push:
+    paths:
+      - src/**
+      - tsconfig.json
+      - .github/**
     branches:
       - main
 name: release
