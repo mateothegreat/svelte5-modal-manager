@@ -34,18 +34,6 @@ export class ModalManager {
 
     config = typeof config === "function" ? new ModalConfig({ component: config }) : config;
 
-    if (!config.dialog.class) {
-      config.dialog.class =
-        "bg-background text-foreground max-h-[90vh] w-[min(100vw-2rem,28rem)] overflow-y-auto rounded-xl border p-6 shadow-lg";
-    }
-
-    if (!config.dialog.attributes) {
-      config.dialog.attributes = {
-        role: "dialog",
-        "aria-modal": "true"
-      };
-    }
-
     const instance = new ModalInstance<P>(config);
 
     instance.manager = this;

@@ -1,8 +1,7 @@
 <script lang="ts" generics="P">
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy, onMount, type Component } from "svelte";
   import type { ModalInstance } from "./instance.svelte";
   import { Modifier } from "./keybindings";
-  import type { ModalProps } from "./props";
 
   interface Props {
     instance: ModalInstance<P>;
@@ -52,6 +51,18 @@
     });
   }
 
+  if (!instance.config.dialog?.class) {
+    instance.config.dialog.class =
+      "bg-background text-foreground max-h-[90vh] w-[min(100vw-2rem,28rem)] overflow-y-auto rounded-xl border p-6 shadow-lg";
+  }
+
+  if (!instance.config.dialog?.attributes) {
+    instance.config.dialog.attributes = {
+      role: "dialog",
+      "aria-modal": "true"
+    };
+  }
+
   const backdrop = (
     v: typeof instance.config.backdrop
   ): { class?: string; attributes?: Record<string, string> } | null => {
@@ -75,10 +86,12 @@
 
   const backdropConfig = backdrop(instance.config.backdrop);
 
-  // Generic spreads collapse to `{}`, so assert the payload plus `instance`.
-  const innerProps = $derived(
-    ({ ...(instance.props ?? {}), instance }) as ModalProps<P>
-  );
+  /**
+   * TypeScript cannot prove that `{...instance.props}` satisfies `ModalProps<P>`,
+   * so widen the constructor only. Spread `instance.props` in the template so
+   * `$state` payloads stay live instead of being copied into a derived snapshot.
+   */
+  const Body = instance.config.component as Component<Record<string, unknown>>;
 </script>
 
 {#if backdropConfig && instance.index === 0}
@@ -109,7 +122,7 @@
       class={instance.config.dialog?.class}
       class:modal-content={true}
       {...instance.config.dialog?.attributes}>
-      <instance.config.component {...innerProps} />
+      <Body {...instance.props ?? {}} {instance} />
     </div>
   </div>
 {:else}
@@ -132,6 +145,6 @@
         justify-content: center;
         align-items: center;
       ">
-    <instance.config.component {...innerProps} />
+    <Body {...instance.props ?? {}} {instance} />
   </div>
 {/if}

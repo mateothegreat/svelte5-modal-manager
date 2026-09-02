@@ -47,3 +47,5 @@ export enum Modifier {
   Shift = "Shift",
   Meta = "Meta"
 }
+
+export const EscapeKeyBinding: KeyBinding = { key: Key.Escape, fn: (inst: ModalInstance<any>) => inst.close() };
