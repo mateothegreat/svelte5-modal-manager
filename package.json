@@ -10,6 +10,10 @@
     },
     "./": "./dist/index.ts"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mateothegreat/svelte5-modal-manager.git"
+  },
   "files": [
     "src",
     "dist"
