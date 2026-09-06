@@ -48,4 +48,34 @@ export enum Modifier {
   Meta = "Meta"
 }
 
-export const EscapeKeyBinding: KeyBinding = { key: Key.Escape, fn: (inst: ModalInstance<any>) => inst.close() };
+/**
+ * Closes the current modal when Escape is pressed.
+ *
+ * The handler is generic over the modal payload, so you can put this object
+ * in any `KeyBinding<P>[]` list. A `KeyBinding<unknown>` annotation would not
+ * work: `ModalInstance` is invariant through `config.component`.
+ *
+ * @example
+ * ```ts
+ * manager.open({
+ *   component: MyModal,
+ *   keybindings: [EscapeKeyBinding]
+ * });
+ * ```
+ *
+ * @example
+ * ```ts
+ * const bindings: KeyBinding<{ title: string }>[] = [EscapeKeyBinding];
+ * ```
+ *
+ * @example
+ * ```ts
+ * EscapeKeyBinding.fn(instance);
+ * ```
+ *
+ * @category Keybindings
+ */
+export const EscapeKeyBinding = {
+  key: Key.Escape,
+  fn: <T>(inst: ModalInstance<T>) => inst.close()
+} satisfies KeyBinding;
