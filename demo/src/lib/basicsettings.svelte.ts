@@ -1,6 +1,7 @@
 import { manager, type ModalInstance } from "@mateothegreat/svelte5-modal-manager";
 
 import Basic from "./basic.svelte";
+import Noprops from "./components/noprops.svelte";
 import type { CustomBasicProps } from "./props";
 
 const prop = $state({
@@ -26,5 +27,12 @@ export const openBasic = (): ModalInstance<CustomBasicProps> => {
     props: {
       state: prop
     }
+  });
+};
+
+export const openNoProps = () => {
+  return manager.open({
+    id: "noProps" + Math.random(),
+    component: Noprops
   });
 };

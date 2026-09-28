@@ -33,10 +33,20 @@ export class ModalConfig<P = unknown> {
   /**
    * The Svelte component to render inside the modal.
    *
-   * The manager injects `instance` alongside your own props, so the component
-   * receives `ModalProps<P>` rather than a bare `P`.
+   * At runtime the manager always mounts the component with the full
+   * `ModalProps<P>` (your payload plus the injected `instance`). The declared
+   * type is a union so both of the common authoring styles type-check:
+   *
+   *   1. A component that declares `let { instance, ...p }: ModalProps<P> = $props();`
+   *      matches the `Component<ModalProps<P>>` arm.
+   *   2. A component that declares no `$props()` at all (Svelte infers
+   *      `Component<Record<string, never>>`) matches the second arm.
+   *
+   * A single `Component<ModalProps<P>>` field would reject case (2) because
+   * Svelte's `Component<Props>` is contravariant in `Props` and the empty
+   * record is a narrower type than `ModalProps<P>`.
    */
-  component: Component<ModalProps<P>>;
+  component: Component<ModalProps<P>> | Component<Record<string, never>>;
 
   /**
    * Additional props to pass to the modal component.
