@@ -55,12 +55,10 @@
     instance.config.dialog = {};
   }
 
-  console.log(instance.config.dialog);
-
-  // if (!instance.config.dialog?.class) {
-  //   instance.config.dialog.class =
-  //     "text-foreground max-h-[90vh] w-[min(100vw-2rem,28rem)] overflow-y-auto rounded-xl border p-6 shadow-lg bg-red-500 backdrop-blur";
-  // }
+  if (!instance.config.dialog?.class) {
+    instance.config.dialog.class =
+      "text-foreground max-h-[90vh] w-[min(100vw-2rem,28rem)] overflow-y-auto rounded-xl border p-6 shadow-lg bg-red-500 backdrop-blur";
+  }
 
   if (!instance.config.dialog?.attributes) {
     instance.config.dialog.attributes = {
