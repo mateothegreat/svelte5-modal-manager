@@ -14,7 +14,7 @@ setInterval(() => {
 
 export const openBasic = (): ModalInstance<CustomBasicProps> => {
   return manager.open<CustomBasicProps>({
-    id: "basic",
+    id: "basic" + Math.random(),
     component: Basic,
     backdrop: true,
     dialog: {
