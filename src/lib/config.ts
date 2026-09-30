@@ -1,7 +1,6 @@
 import type { Component } from "svelte";
 
 import type { KeyBinding } from "./keybindings";
-import type { ModalProps } from "./props";
 
 /**
  * Configuration options for a modal.
@@ -33,20 +32,21 @@ export class ModalConfig<P = unknown> {
   /**
    * The Svelte component to render inside the modal.
    *
-   * At runtime the manager always mounts the component with the full
-   * `ModalProps<P>` (your payload plus the injected `instance`). The declared
-   * type is a union so both of the common authoring styles type-check:
+   * Typed as `Component<any, any, any>` on purpose: Svelte's `Component<Props>`
+   * is contravariant in `Props`, so a strictly-typed `Component<ModalProps<P>>`
+   * field rejects both
+   *   1. components declared with a concrete payload type (their `Props`
+   *      is a *narrower* `ModalProps<{...}>` and cannot be assigned to
+   *      `Component<ModalProps<unknown>>` when `P` defaults to `unknown`), and
+   *   2. components that declare no `$props()` at all (Svelte infers
+   *      `Component<Record<string, never>>` which is also narrower).
    *
-   *   1. A component that declares `let { instance, ...p }: ModalProps<P> = $props();`
-   *      matches the `Component<ModalProps<P>>` arm.
-   *   2. A component that declares no `$props()` at all (Svelte infers
-   *      `Component<Record<string, never>>`) matches the second arm.
-   *
-   * A single `Component<ModalProps<P>>` field would reject case (2) because
-   * Svelte's `Component<Props>` is contravariant in `Props` and the empty
-   * record is a narrower type than `ModalProps<P>`.
+   * Runtime safety is enforced elsewhere: the manager always mounts with
+   * the full `ModalProps<P>` (instance + your payload), and `ModalProps<P>`
+   * on the consumer side (`let { instance, ...p }: ModalProps<Payload>`)
+   * still type-checks payload access inside the component.
    */
-  component: Component<ModalProps<P>> | Component<Record<string, never>>;
+  component: Component<any, any, any>;
 
   /**
    * Additional props to pass to the modal component.
